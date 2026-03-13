@@ -7,7 +7,7 @@ import AppKit
 final class HUDWindowManager {
 
     private var hudWindow: NSWindow?
-    private var hostingView: NSHostingView<HUDView>?
+    private var hostingView: NSHostingView<AnyView>?
 
     var onSaveClip: (() -> Void)?
 
@@ -37,7 +37,7 @@ final class HUDWindowManager {
             .environmentObject(captureEngine)
             .environmentObject(settings)
 
-        let hosting = NSHostingView(rootView: hudView)
+        let hosting = NSHostingView(rootView: AnyView(hudView))
         hosting.frame = window.contentView?.bounds ?? .zero
         hosting.autoresizingMask = [.width, .height]
         window.contentView?.addSubview(hosting)

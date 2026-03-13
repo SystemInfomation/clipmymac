@@ -127,7 +127,7 @@ private extension AVAudioPCMBuffer {
 
         var timing = CMSampleTimingInfo(
             duration: CMTime(value: 1, timescale: CMTimeScale(sampleRate)),
-            presentationTimeStamp: CMTimeMakeWithSeconds(presentationTime.sampleTime / sampleRate, preferredTimescale: 48000),
+            presentationTimeStamp: CMTimeMakeWithSeconds(Double(presentationTime.sampleTime) / sampleRate, preferredTimescale: 48000),
             decodeTimeStamp: .invalid
         )
 

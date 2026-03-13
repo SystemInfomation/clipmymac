@@ -1,6 +1,7 @@
 import Foundation
 import CoreMedia
 import AVFoundation
+import VideoToolbox
 import OSLog
 
 private let logger = Logger(subsystem: "com.clipmaclocal", category: "ReplayBuffer")

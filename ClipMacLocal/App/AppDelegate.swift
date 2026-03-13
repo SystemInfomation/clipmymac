@@ -8,6 +8,7 @@ private let logger = Logger(subsystem: "com.clipmaclocal", category: "AppDelegat
 
 // MARK: - App Delegate
 
+@MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
 
     // MARK: Managers
