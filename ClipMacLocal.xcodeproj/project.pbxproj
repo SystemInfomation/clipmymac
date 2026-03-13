@@ -12,23 +12,14 @@
 		2C9F1CBDB8A340DA9E7E5C41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02E5E5AA040641C7BC03E652 /* AppDelegate.swift */; };
 		3E807AA063FA40C09CA5D33A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DE0E8EC9C2C8411ABB1F852E /* Assets.xcassets */; };
 		49EEC7412F64C4E600091EE6 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E2A44D04D5D4309BD6C356E /* AppKit.framework */; };
-		49EEC7422F64C4E600091EE6 /* AppKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8E2A44D04D5D4309BD6C356E /* AppKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC7442F64C4E800091EE6 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35904AF48144363A4784CA3 /* AVFoundation.framework */; };
-		49EEC7452F64C4E800091EE6 /* AVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F35904AF48144363A4784CA3 /* AVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC7462F64C4EA00091EE6 /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 876F4B8EF77A4DFF9F35AE82 /* AVKit.framework */; };
-		49EEC7472F64C4EA00091EE6 /* AVKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 876F4B8EF77A4DFF9F35AE82 /* AVKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC7482F64C4EB00091EE6 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B1CF14F55AF48BDBEDDC491 /* Carbon.framework */; };
-		49EEC7492F64C4EB00091EE6 /* Carbon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7B1CF14F55AF48BDBEDDC491 /* Carbon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC74A2F64C4ED00091EE6 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 381C0208B6194F0690E6B4C5 /* CoreMedia.framework */; };
-		49EEC74B2F64C4ED00091EE6 /* CoreMedia.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 381C0208B6194F0690E6B4C5 /* CoreMedia.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC74C2F64C4FC00091EE6 /* ScreenCaptureKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0874AF8634F440F9927A8018 /* ScreenCaptureKit.framework */; };
-		49EEC74D2F64C4FC00091EE6 /* ScreenCaptureKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0874AF8634F440F9927A8018 /* ScreenCaptureKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC74E2F64C4FF00091EE6 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2711A8D7E2E84A418E77197D /* ServiceManagement.framework */; };
-		49EEC74F2F64C4FF00091EE6 /* ServiceManagement.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2711A8D7E2E84A418E77197D /* ServiceManagement.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC7502F64C50000091EE6 /* UserNotifications.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 063243CF8328421F8181FEA8 /* UserNotifications.framework */; };
-		49EEC7512F64C50000091EE6 /* UserNotifications.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 063243CF8328421F8181FEA8 /* UserNotifications.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		49EEC7522F64C53C00091EE6 /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19239615A27B46E7942EB24A /* Metal.framework */; };
-		49EEC7532F64C53C00091EE6 /* Metal.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 19239615A27B46E7942EB24A /* Metal.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4BC5B46159714392A887D215 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3A8D7B1CF04495CA06F6290 /* HUDView.swift */; };
 		6550FB7A89C348209F4E4545 /* ClipLibrary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED44EF81FFCD43308F2B5ECA /* ClipLibrary.swift */; };
 		7652FBF1C39C4AA98C4F83CB /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA5DBFE286F49F8BEA28122 /* Extensions.swift */; };
@@ -50,25 +41,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		49EEC7432F64C4E600091EE6 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				49EEC7512F64C50000091EE6 /* UserNotifications.framework in Embed Frameworks */,
-				49EEC7532F64C53C00091EE6 /* Metal.framework in Embed Frameworks */,
-				49EEC7452F64C4E800091EE6 /* AVFoundation.framework in Embed Frameworks */,
-				49EEC7492F64C4EB00091EE6 /* Carbon.framework in Embed Frameworks */,
-				49EEC74F2F64C4FF00091EE6 /* ServiceManagement.framework in Embed Frameworks */,
-				49EEC7422F64C4E600091EE6 /* AppKit.framework in Embed Frameworks */,
-				49EEC7472F64C4EA00091EE6 /* AVKit.framework in Embed Frameworks */,
-				49EEC74D2F64C4FC00091EE6 /* ScreenCaptureKit.framework in Embed Frameworks */,
-				49EEC74B2F64C4ED00091EE6 /* CoreMedia.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -256,7 +228,6 @@
 				E714055C745B483F8F6F4491 /* Sources */,
 				B765033E9DA64C25B23591D2 /* Frameworks */,
 				B7B023A441AF40AB8B8C3A0C /* Resources */,
-				49EEC7432F64C4E600091EE6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -383,9 +354,9 @@
 			buildSettings = {
 				ASSET_CATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSET_CATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClipMacLocal/Resources/ClipMacLocal.entitlements;
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = ClipMacLocal/Resources/ClipMacLocal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipMacLocal/Preview Content\"";
@@ -405,9 +376,9 @@
 			buildSettings = {
 				ASSET_CATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSET_CATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ClipMacLocal/Resources/ClipMacLocal.entitlements;
 				CODE_SIGNING_ALLOWED = NO;
 				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_ENTITLEMENTS = ClipMacLocal/Resources/ClipMacLocal.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"ClipMacLocal/Preview Content\"";
