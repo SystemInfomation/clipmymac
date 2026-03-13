@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Hardened Runtime -->
+    <key>com.apple.security.cs.allow-jit</key>
+    <false/>
+    <key>com.apple.security.cs.allow-unsigned-executable-memory</key>
+    <false/>
+    <key>com.apple.security.cs.disable-library-validation</key>
+    <false/>
+
+    <!-- Screen Recording (via ScreenCaptureKit) -->
+    <!-- Note: Screen recording permission is handled at the OS level via TCC -->
+
+    <!-- Microphone -->
+    <key>com.apple.security.device.audio-input</key>
+    <true/>
+
+    <!-- App Sandbox - disabled for screen capture + global hotkeys -->
+    <key>com.apple.security.app-sandbox</key>
+    <false/>
+
+    <!-- Files: Read/Write for saving clips -->
+    <key>com.apple.security.files.user-selected.read-write</key>
+    <true/>
+    <key>com.apple.security.files.downloads.read-write</key>
+    <true/>
+
+    <!-- Network client (optional, not used) -->
+    <!-- <key>com.apple.security.network.client</key><true/> -->
+</dict>
+</plist>
