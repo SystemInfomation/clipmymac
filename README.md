@@ -29,7 +29,7 @@ A **100% offline, local-only** instant-replay screen recorder for macOS — a fr
 
 ```bash
 git clone https://github.com/SystemInfomation/clipmymac.git
-cd clipmymac/ClipMacLocal
+cd clipmymac
 ```
 
 ### 2. Open in Xcode
@@ -78,8 +78,9 @@ tccutil reset Microphone com.clipmaclocal.app
 ## Project Structure
 
 ```
-ClipMacLocal/
+clipmymac/
 ├── ClipMacLocal.xcodeproj/        # Xcode project
+├── ClipMacLocalTests/             # Unit tests
 └── ClipMacLocal/
     ├── App/
     │   ├── ClipMacLocalApp.swift  # SwiftUI @main entry point
