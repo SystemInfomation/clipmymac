@@ -140,6 +140,7 @@ final class AppSettings: ObservableObject {
         config.applicationBundleID = selectedAppBundleID.isEmpty ? nil : selectedAppBundleID
         config.frameRate = Double(frameRate)
         config.bitRate = bitRate
+        config.capturesAudio = captureSystemAudio
         let (w, h) = resolutionPreset.dimensions
         config.width = w
         config.height = h

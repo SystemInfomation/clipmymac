@@ -90,6 +90,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, ObservableObject {
     func startCapture() async {
         do {
             replayBuffer.targetDuration = settings.bufferDuration + 5
+            captureEngine.configuration = settings.captureConfiguration
             try await captureEngine.startCapture()
             if settings.captureMicrophone {
                 try? audioEngine.startMicrophone()

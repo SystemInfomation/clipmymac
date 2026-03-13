@@ -198,7 +198,7 @@ final class ReplayBuffer {
             AVVideoHeightKey: configuration.height,
             AVVideoCompressionPropertiesKey: [
                 AVVideoAverageBitRateKey: configuration.bitRate,
-                AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel,
+                AVVideoProfileLevelKey: kVTProfileLevel_HEVC_Main_AutoLevel,
                 kVTCompressionPropertyKey_RealTime as String: false,
                 kVTCompressionPropertyKey_Quality as String: 0.85
             ]

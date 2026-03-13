@@ -15,6 +15,7 @@ struct CaptureConfiguration {
     var frameRate: Double = 60.0
     var bitRate: Int = 8_000_000         // 8 Mbps default
     var showsCursor: Bool = true
+    var capturesAudio: Bool = true
     var captureMode: CaptureMode = .fullScreen
     var displayID: CGDirectDisplayID = CGMainDisplayID()
     var windowID: CGWindowID? = nil
@@ -37,6 +38,7 @@ final class CaptureEngine: NSObject, ObservableObject {
     // MARK: Published State
 
     @Published var isCapturing: Bool = false
+    @Published var isStarting: Bool = false
     @Published var availableDisplays: [SCDisplay] = []
     @Published var availableWindows: [SCWindow] = []
     @Published var availableApps: [SCRunningApplication] = []
@@ -75,6 +77,9 @@ final class CaptureEngine: NSObject, ObservableObject {
 
     func startCapture() async throws {
         guard !isCapturing else { return }
+        isStarting = true
+        captureError = nil
+        defer { isStarting = false }
 
         let content = try await SCShareableContent.excludingDesktopWindows(false, onScreenWindowsOnly: true)
         availableDisplays = content.displays
@@ -89,10 +94,22 @@ final class CaptureEngine: NSObject, ObservableObject {
             self?.replayBuffer?.append(sampleBuffer)
             self?.updateFPS()
         }
+        output.onAudioFrame = { [weak self] sampleBuffer in
+            self?.replayBuffer?.appendAudio(sampleBuffer)
+        }
+        output.onStopWithError = { [weak self] error in
+            Task { @MainActor in
+                self?.captureError = error.localizedDescription
+                self?.isCapturing = false
+            }
+        }
         self.streamOutput = output
 
         let captureStream = SCStream(filter: filter, configuration: streamConfig, delegate: output)
         try captureStream.addStreamOutput(output, type: .screen, sampleHandlerQueue: .global(qos: .userInteractive))
+        if configuration.capturesAudio {
+            try captureStream.addStreamOutput(output, type: .audio, sampleHandlerQueue: .global(qos: .userInitiated))
+        }
 
         try await captureStream.startCapture()
         self.stream = captureStream
@@ -104,7 +121,12 @@ final class CaptureEngine: NSObject, ObservableObject {
     // MARK: - Stop Capture
 
     func stopCapture() async {
-        guard isCapturing, let stream = stream else { return }
+        guard isCapturing, let stream = stream else {
+            isStarting = false
+            self.stream = nil
+            self.streamOutput = nil
+            return
+        }
         do {
             try await stream.stopCapture()
             logger.info("Capture stopped")
@@ -114,6 +136,7 @@ final class CaptureEngine: NSObject, ObservableObject {
         self.stream = nil
         self.streamOutput = nil
         isCapturing = false
+        isStarting = false
     }
 
     // MARK: - Build Content Filter
@@ -158,10 +181,12 @@ final class CaptureEngine: NSObject, ObservableObject {
         config.colorSpaceName = CGColorSpace.sRGB
 
         // Capture system audio via ScreenCaptureKit
-        config.capturesAudio = true
+        config.capturesAudio = configuration.capturesAudio
         config.excludesCurrentProcessAudio = true
-        config.sampleRate = 48000
-        config.channelCount = 2
+        if configuration.capturesAudio {
+            config.sampleRate = 48000
+            config.channelCount = 2
+        }
         return config
     }
 
@@ -203,6 +228,7 @@ final class CaptureEngine: NSObject, ObservableObject {
 private final class StreamOutput: NSObject, SCStreamOutput, SCStreamDelegate {
     var onFrame: ((CMSampleBuffer) -> Void)?
     var onAudioFrame: ((CMSampleBuffer) -> Void)?
+    var onStopWithError: ((Error) -> Void)?
 
     func stream(_ stream: SCStream, didOutputSampleBuffer sampleBuffer: CMSampleBuffer, of type: SCStreamOutputType) {
         guard sampleBuffer.isValid else { return }
@@ -218,5 +244,6 @@ private final class StreamOutput: NSObject, SCStreamOutput, SCStreamDelegate {
 
     func stream(_ stream: SCStream, didStopWithError error: Error) {
         logger.error("SCStream stopped with error: \(error.localizedDescription)")
+        onStopWithError?(error)
     }
 }

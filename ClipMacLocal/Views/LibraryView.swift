@@ -68,6 +68,10 @@ struct LibraryView: View {
             RecordingStatusCard(captureEngine: captureEngine, isSaving: $isSaving, saveProgress: $saveProgress)
                 .padding(12)
 
+            CaptureControlCard(captureEngine: captureEngine, settings: settings)
+                .padding(.horizontal, 12)
+                .padding(.bottom, 12)
+
             Divider()
 
             // Sort order
@@ -270,6 +274,125 @@ private struct RecordingStatusCard: View {
     }
 }
 
+// MARK: - Capture Control Card
+
+private struct CaptureControlCard: View {
+    @ObservedObject var captureEngine: CaptureEngine
+    @ObservedObject var settings: AppSettings
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            HStack(spacing: 8) {
+                Text("Capture Controls")
+                    .font(.system(size: 12, weight: .semibold))
+                if captureEngine.isStarting {
+                    ProgressView()
+                        .scaleEffect(0.6)
+                }
+                Spacer()
+                Text(captureEngine.isCapturing ? "Live" : "Stopped")
+                    .font(.system(size: 10, weight: .semibold))
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(captureEngine.isCapturing ? Color.red.opacity(0.15) : Color.secondary.opacity(0.15))
+                    .clipShape(Capsule())
+            }
+
+            TimelineView(.periodic(from: .now, by: 1.0)) { _ in
+                let buffered = captureEngine.replayBuffer?.bufferedDuration ?? 0
+                let maxBuffer = max(settings.bufferDuration, 1)
+                let fraction = min(1.0, buffered / maxBuffer)
+                VStack(alignment: .leading, spacing: 4) {
+                    ProgressView(value: fraction)
+                        .progressViewStyle(.linear)
+                    Text("Buffer: \(Int(buffered))s / \(Int(settings.bufferDuration))s")
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                }
+            }
+
+            HStack(spacing: 6) {
+                StatusPill(label: "System Audio", isOn: settings.captureSystemAudio)
+                StatusPill(label: "Mic", isOn: settings.captureMicrophone)
+            }
+
+            if let error = captureEngine.captureError {
+                Text(error)
+                    .font(.system(size: 10))
+                    .foregroundColor(.red)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+
+            HStack(spacing: 8) {
+                Button(action: toggleCapture) {
+                    Text(captureEngine.isCapturing ? "Stop" : "Start")
+                        .font(.system(size: 12, weight: .semibold))
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 28)
+                        .background(captureEngine.isCapturing ? Color.red.opacity(0.2) : Color.accentColor.opacity(0.2))
+                        .clipShape(RoundedRectangle(cornerRadius: 8))
+                }
+                .buttonStyle(.plain)
+                .disabled(captureEngine.isStarting)
+
+                Button("Refresh", action: refreshSources)
+                    .font(.system(size: 12, weight: .semibold))
+                    .frame(height: 28)
+                    .padding(.horizontal, 10)
+                    .background(Color.secondary.opacity(0.12))
+                    .clipShape(RoundedRectangle(cornerRadius: 8))
+                    .buttonStyle(.plain)
+            }
+        }
+        .padding(12)
+        .background(Color.secondary.opacity(0.06))
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+    }
+
+    private func toggleCapture() {
+        if captureEngine.isCapturing {
+            Task { @MainActor in
+                await captureEngine.stopCapture()
+            }
+        } else {
+            Task { @MainActor in
+                captureEngine.configuration = settings.captureConfiguration
+                do {
+                    try await captureEngine.startCapture()
+                } catch {
+                    captureEngine.captureError = error.localizedDescription
+                }
+            }
+        }
+    }
+
+    private func refreshSources() {
+        Task { @MainActor in
+            await captureEngine.refreshAvailableContent()
+        }
+    }
+}
+
+private struct StatusPill: View {
+    let label: String
+    let isOn: Bool
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Circle()
+                .fill(isOn ? Color.green : Color.secondary.opacity(0.5))
+                .frame(width: 6, height: 6)
+            Text(label)
+                .font(.system(size: 10, weight: .semibold))
+                .foregroundColor(isOn ? .primary : .secondary)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .background(Color.secondary.opacity(0.12))
+        .clipShape(Capsule())
+    }
+}
+
 // MARK: - Save Clip Button
 
 private struct SaveClipButton: View {
@@ -335,10 +458,13 @@ private struct SaveClipButton: View {
                         sendSaveNotification()
                     }
                 }
+                await MainActor.run { isSaving = false }
             } catch {
-                saveErrorMessage = error.localizedDescription
+                await MainActor.run {
+                    saveErrorMessage = error.localizedDescription
+                    isSaving = false
+                }
             }
-            isSaving = false
         }
     }
 
